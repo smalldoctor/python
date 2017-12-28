@@ -142,3 +142,27 @@ print("是否可以迭代： " + str(isinstance([1, 2, 3], Iterable)))
 
 for i, v in enumerate(L):
     print("索引：" + str(i) + " 值:" + str(v))
+
+
+def modPara(para):
+    para = 3
+    print("para:" + str(para))
+
+
+def modlist(para):
+    para[0] = 3
+    print("para:" + str(para))
+
+
+int1 = 1
+print(int1)
+int3 = int1
+int1 = 4
+print(int1)
+print(int3)
+modPara(int1)
+print("int1:" + str(int1))
+list1 = [1, 1, 1]
+print("list1:" + str(list1))
+modlist(list1)
+print("list1:" + str(list1))
