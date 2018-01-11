@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import Iterable
+import os
 
 a = 100
 """
@@ -108,10 +109,14 @@ python的函数调用也是通过调用栈帧的方式实现的；防止递归�
 
 目前python并没有尾递归进行优化，还是存在栈溢出；
 
+函数可以返回多个值，实际返回的是一个tuple；因为tuple可以赋值给多个变量，对应位置值给对应的变量
+
 python中可以理解分为变量和对象；对象是有类型的，变量是没有类型的；
 对象分为可变和不可变两种；
 变量相当于一个标签，起到引用的作用，指引对象的作用；
 '''
+paraTuple1, paraTuple2, paraTuple3 = (1, 2, 3)
+print("paraTuple1:", paraTuple1, "paraTuple2:", paraTuple2, "paraTuple3:", paraTuple3)
 
 
 def fact_iter(num, product):
@@ -166,3 +171,17 @@ list1 = [1, 1, 1]
 print("list1:" + str(list1))
 modlist(list1)
 print("list1:" + str(list1))
+
+# 列表生成
+list3 = [x + y for x in range(1, 10) for y in range(1, 10)]
+print("list3:", list3)
+
+list4 = [x for x in range(1, 100) if x % 2 == 0]
+print("list4:", list4)
+
+dirs = [d for d in os.listdir('.')]
+print("dirs:", dirs)
+
+dict2 = {"x": "x", "y": "y"}
+# dict.items()可以被for循环遍历
+entrys = dict2.items()
