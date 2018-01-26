@@ -1,3 +1,5 @@
+from types import MethodType
+
 """
 任何模块代码的第一个字符串都被视为模块的文档注释
 类似__xxx__这样的变量是特殊变量，可以被直接引用，但是有特殊用途，比如上面的__author__，
@@ -70,3 +72,17 @@ getattr函数获取属性的值
 getattr(obj, 'z', 404)404表示在属性不存在时返回的值
 """
 print(dir(Student))
+
+
+def set_age(self, age):
+    pass
+
+
+stu1.set_age = MethodType(set_age, stu1)  # 给实例绑定一个方法
+Student.set_age = set_age  # 为类绑定方法，从而每个实例都会有这个方法
+
+"""
+一个特殊的__slots__变量，来限制该class实例能添加的属性
+__slots__定义的属性仅对当前类实例起作用，对继承的子类是不起作用的
+除非在子类中也定义__slots__，这样，子类实例允许定义的属性就是自身的__slots__加上父类的__slots__。
+"""
