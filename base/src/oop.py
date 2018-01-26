@@ -29,6 +29,9 @@ object类是所有类的父类;
 
 
 class Student(object):
+    # 类属性
+    name = 'Student'
+
     # 在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，
     # 并且调用时，不用传递该参数;self 相当于JAVA中的this；__init__相当于构造器
     def __init__(self):
@@ -37,6 +40,10 @@ class Student(object):
 
 # 创建实例
 stu1 = Student()
+# 实例属性优先级比类属性高，因此它会屏蔽掉类的name属性,但是类属性并未消失，用Student.name仍然可以访问
+# 实例属性属于各个实例所有，互不干扰；
+# 类属性属于类所有，所有实例共享一个属性；
+stu1.name = "stud"
 """
 外部代码“成功”地设置了__name变量，但实际上这个__name变量和class内部的self.__name
 变量不是一个变量！内部的self.__name变量已经被Python解释器自动改成了_Student__name，
