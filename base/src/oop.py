@@ -27,6 +27,9 @@ object类是所有类的父类;
 不要随意访问”。双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。
 不能直接访问__name是因为Python解释器对外把__name变量改成了_Student__name，所以，
 仍然可以通过_Student__name来访问__name变量,但是不同版本的Python解释器可能会把__name改成不同的变量名
+
+类的定制话：
+https://docs.python.org/3/reference/datamodel.html#special-method-names
 """
 
 
@@ -38,6 +41,19 @@ class Student(object):
     # 并且调用时，不用传递该参数;self 相当于JAVA中的this；__init__相当于构造器
     def __init__(self):
         self.__name = "name"
+
+    #     定义好__str__()方法，返回一个自定义的有意义的字符串
+    # __repr__()是为调试服务的,因此 __repr__ = __str__
+    def __str__(self):
+        pass
+
+    """
+    如果一个实例本身可以被执行，是因为其实现了__call__()方法；函数会被执行，是因为函数本身也是一个对象，
+    其本身也是实现了__call__()方法；
+    """
+
+    def __call__(self):
+        print('My name is %s.' % self.name)
 
 
 # 创建实例
@@ -86,3 +102,59 @@ Student.set_age = set_age  # 为类绑定方法，从而每个实例都会有这
 __slots__定义的属性仅对当前类实例起作用，对继承的子类是不起作用的
 除非在子类中也定义__slots__，这样，子类实例允许定义的属性就是自身的__slots__加上父类的__slots__。
 """
+
+"""
+MixIn的目的就是给一个类增加多个功能，
+这样，在设计类的时候，我们优先考虑通过多重继承来组合多个MixIn的功能，而不是设计多层次的复杂的继承关系。
+由于Python允许使用多重继承，因此，MixIn就是一种常见的设计。
+只允许单一继承的语言（如Java）不能使用MixIn的设计。
+"""
+
+"""
+如果一个类想被用于for ... in循环，类似list或tuple那样，就必须实现一个__iter__()方法，
+该方法返回一个迭代对象，然后，Python的for循环就会不断调用该迭代对象的__next__()方法拿到循环的
+下一个值，直到遇到StopIteration错误时退出循环
+"""
+
+"""
+__getitem__()传入的参数可能是一个int，也可能是一个切片对象slice
+如果把对象看成dict，__getitem__()的参数也可能是一个可以作key的object，例如str。
+与之对应的是__setitem__()方法，把对象视作list或dict来对集合赋值。最后，
+还有一个__delitem__()方法，用于删除某个元素。
+总之，通过上面的方法，我们自己定义的类表现得和Python自带的list、tuple、dict没什么区别，
+这完全归功于动态语言的“鸭子类型”，不需要强制继承某个接口。
+"""
+
+
+class Fib(object):
+    def __getitem__(self, n):
+        if isinstance(n, int):  # n是索引
+            a, b = 1, 1
+            for x in range(n):
+                a, b = b, a + b
+            return a
+        if isinstance(n, slice):  # n是切片
+            start = n.start
+            stop = n.stop
+            if start is None:
+                start = 0
+            a, b = 1, 1
+            L = []
+            for x in range(stop):
+                if x >= start:
+                    L.append(a)
+                a, b = b, a + b
+            return L
+
+
+class Student(object):
+
+    def __init__(self):
+        self.name = 'Michael'
+
+    # 当调用类的属性或者方法不存在时，__getattr__(self, 'score')来尝试获得属性或者方法
+    def __getattr__(self, attr):
+        if attr == 'score':
+            return 99
+        if attr == 'age':
+            return lambda: 25
