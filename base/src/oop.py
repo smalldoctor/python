@@ -24,6 +24,10 @@ object类是所有类的父类;
 不能直接访问__name是因为Python解释器对外把__name变量改成了_Student__name，所以，
 仍然可以通过_Student__name来访问__name变量,但是不同版本的Python解释器可能会把__name改成不同的变量名
 
+可调用对象（callable），我们平时自定义的函数、内置函数和类(类本身)都属于可调用对象，但凡是可以把一对括号()
+应用到某个对象身上都可称之为可调用对象，判断对象是否为可调用对象可以用函数 callable
+如果在类中实现了 __call__ 方法，那么实例对象也将成为一个可调用对象
+
 类的定制话：
 https://docs.python.org/3/reference/datamodel.html#special-method-names
 """
