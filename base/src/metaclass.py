@@ -8,8 +8,9 @@ python中的所有一切都是对象。要么是类的实例，要么是元类�
 使用class关键字其实就是创建一个【类对象】，然后由【类对象】创建一个个对象；
 默认使用type来创建【类对象】，即类对象其实type类的对象,type是默认的元类；
 
-类用来描述对象，元类用来描述类；
+类用来描述对象，元类用来描述类，本质是用来操作类，生成想要的类；
 
+metaclass使用的python语言级支持操作类，相当于JAVA中的操作字节码；
 
 """
 
@@ -42,6 +43,7 @@ print(hasattr(Foo, 'BAR'))
 f = Foo()
 print(f.BAR)
 
+
 # 实现方式1
 # 一个真正的class来当做元类
 # 请记住，'type'实际上是一个类，就像'str'和'int'一样
@@ -59,6 +61,7 @@ class UpperAttrMetaClass(type):
         uppercase_attr = dict((name.upper(), value) for name, value in attrs)
         return type(future_class_name, future_class_parents, uppercase_attr)
 
+
 # 实现方式2
 class UpperAttrMetaclass(type):
     def __new__(upperattr_metaclass, future_class_name, future_class_parents, future_class_attr):
@@ -68,12 +71,14 @@ class UpperAttrMetaclass(type):
         # 这就是基本的OOP编程，没什么魔法
         return type.__new__(upperattr_metaclass, future_class_name, future_class_parents, uppercase_attr)
 
+
 # 实现方式3
 class UpperAttrMetaclass(type):
     def __new__(cls, name, bases, dct):
         attrs = ((name, value) for name, value in dct.items() if not name.startswith('__'))
-        uppercase_attr  = dict((name.upper(), value) for name, value in attrs)
+        uppercase_attr = dict((name.upper(), value) for name, value in attrs)
         return type.__new__(cls, name, bases, uppercase_attr)
+
 
 # 实现方式4
 class UpperAttrMetaclass(type):
